@@ -1,7 +1,7 @@
 /**
  * WordGram objects represent a k-gram of strings/words.
  * 
- * @author YOUR-NAME
+ * @author Angus Li (al308/allaoc)
  *
  */
 
@@ -9,17 +9,21 @@ public class WordGram {
 	
 	private String[] myWords;   
 	private String myToString;  // cached string
-	private int myHash;         // cached hash value
+	private int myHash = 0;         // cached hash value
+	private boolean myStringCalled = false;
+	private boolean myHashCalled = false;
 
 	/**
-	 * Create WordGram (add comments)
-	 * @param source
-	 * @param start
-	 * @param size
+	 * Create WordGram
+	 * @param source a String array from which to create the WordGram
+	 * @param start the start index of source for the WordGram
+	 * @param size the length of the WordGram
 	 */
 	public WordGram(String[] source, int start, int size) {
 		myWords = new String[size];
-		// TODO: initialize myWords and ...
+		for (int c = start; c < (start+size); c++) {
+			myWords[c-start] = source[c];
+		}
 	}
 
 	/**
@@ -35,12 +39,10 @@ public class WordGram {
 	}
 
 	/**
-	 * Complete this comment
-	 * @return
+	 * @return length of WordGram
 	 */
-	public int length(){
-		// TODO: change this
-		return 0;
+	public int length(){ 
+		return myWords.length;
 	}
 
 
@@ -49,32 +51,50 @@ public class WordGram {
 		if (! (o instanceof WordGram) || o == null){
 			return false;
 		}
-
-	    // TODO: complete this method
+		WordGram comp = (WordGram) o;
+	    if (comp.length() != myWords.length) {
+			return false;
+		}
+		for (int c = 0; c < myWords.length; c++) {
+			if (!comp.wordAt(c).equals(myWords[c])) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	@Override
 	public int hashCode(){
-		// TODO: complete this method
+		if (myHashCalled == false){
+			myHash = this.toString().hashCode();
+			myHashCalled = true;
+		}
 		return myHash;
 	}
 	
 
 	/**
-	 * Create and complete this comment
 	 * @param last is last String of returned WordGram
-	 * @return
+	 * @return wg, the WordGram consisting of all but the first String from myWords and last
 	 */
 	public WordGram shiftAdd(String last) {
-		WordGram wg = new WordGram(myWords,0,myWords.length);
-		// TODO: Complete this method
+		int kount = 0;
+		String[] myAddedWords = new String[myWords.length+1];
+		for (String s : myWords) {
+			myAddedWords[kount] = s;
+			kount++;
+		}
+		myAddedWords[kount] = last;
+		WordGram wg = new WordGram(myAddedWords,1,myWords.length);
 		return wg;
 	}
 
 	@Override
 	public String toString(){
-		// TODO: Complete this method	
+		if (myHashCalled == false) {
+			myToString = String.join(" ",myWords);
+			myHashCalled = true;
+		}
 		return myToString;
 	}
 }
