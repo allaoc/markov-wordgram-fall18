@@ -45,7 +45,11 @@ public class WordGram {
 		return myWords.length;
 	}
 
-
+	/**
+	 *  
+	 *  @param o another WordGram to compare
+	 *  @return true if all Strings in WordGrams are equal
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (! (o instanceof WordGram) || o == null){
@@ -62,7 +66,10 @@ public class WordGram {
 		}
 		return true;
 	}
-
+	/**
+	 *  
+	 *  @return hashCode of String conversion of WordGram
+	 */
 	@Override
 	public int hashCode(){
 		if (myHashCalled == false){
@@ -79,7 +86,7 @@ public class WordGram {
 	 */
 	public WordGram shiftAdd(String last) {
 		int kount = 0;
-		String[] myAddedWords = new String[myWords.length+1];
+		String[] myAddedWords = new String[myWords.length+1]; // Make an array with last added
 		for (String s : myWords) {
 			myAddedWords[kount] = s;
 			kount++;
@@ -88,7 +95,9 @@ public class WordGram {
 		WordGram wg = new WordGram(myAddedWords,1,myWords.length);
 		return wg;
 	}
-
+	/**
+	 *  @return String with all elements of myWords joined by single space
+	 */
 	@Override
 	public String toString(){
 		if (myHashCalled == false) {
