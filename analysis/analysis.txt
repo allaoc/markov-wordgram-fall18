@@ -1,4 +1,4 @@
-YOUR NAME and YOUR NETID
+Angus Li and al308
 
 Run WordGramDiver for wordgrams of size 2-10 and record
 the number of WordGram values/objects that occur more than
@@ -15,12 +15,13 @@ values of WSIZE
 WSIZE    # duplicates
 2        60,453
 3        10,756
-4
-5
-7
-8
-9
-10
+4	 1,987
+5	 667
+6	 362
+7	 226
+8	 151
+9	 105 
+10	 73
 
 =====
 Explain in your own words the conceptual differences between 
@@ -30,10 +31,16 @@ Answer these questions:
 (1) Why the results of these methods should be the same in 
 terms of changes made to the HashSet parameter.
 
+Both methods add WordGrams of a fixed size WSIZE, incrementing the "frame" of the WordGram by 1 along the input text file per each WordGram added to the HashSet. Thus, in the end, each HashSet should contain every "frame" of size WSIZE from the input text file.
+
 (2) What are the conceptual differences between the two
 benchmarking methods
+
+Benchmark scans the entire input text file at one time and eventually stores it in a String array. Each WordGram added to the HashSet is made by calling the constructor method and passing the entire array of Strings along with a start index and length. On the other hand, benchmarkShift creates an initial WordGram from the first ten words of the input text file using the constructor method but makes subsequent WordGrams added to the HashSet based on the previously made WordGram and using the shiftAdd method to add the next word in the input text file to the last WSIZE-1 elements of the previous WordGram.
 
 (3) Is the total amount of memory allocated for arrays
 the same or different in the two methods? Account for
 arrays created in the methods and arrays created by
 WordGram objects. Try to be quantitative in answering.
+
+Benchmark uses less memory for arrays than benchmarkShift. Benchmark creates 1 String array of length (total word count of input text file) as well as (total word count - WSIZE) arrays of size WSIZE. BenchmarkShift creates 1 array of size WSIZE, then 1 array of size WSIZE, then (total word count - WSIZE - 1) arrays of size (WSIZE + 1) and (total word count - WSIZE - 1) arrays of size (WSIZE). Thus, benchmark creates arrays with less redundancy, since there is a single large "backing" array rather than many overlapping smaller "backing" arrays.
